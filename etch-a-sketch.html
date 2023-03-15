@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Etch a Sketch</title>
+    <link rel="stylesheet" href="project.css">
+  </head>
+<body>
+  <div style="margin:0 auto;text-align:center">
+    <h1>Etch a Sketch</h1>
+    <div class="topnav">
+      <a onclick="reset()">Reset</a>
+      <a id="black" onclick="black()">Black</a>
+      <a id="rgb" onclick="rgb()">Rgb</a>
+      <a class="slidecontainer">
+        <input type="range" min="1" max="100" value="16" class="slider" id="slider">
+      </a>
+      <a>Squares per side: <span id="number"></span></a>
+      <!-- <a onclick="squareNumbers()"> Squares</a> -->
+    </div>
+    <div class="grid-container" id="grid"></div> 
+  </div>
+<script src="project.js"></script>
+</body>
+</html>
