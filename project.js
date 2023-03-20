@@ -1,14 +1,14 @@
 //making the squares
 const grid = document.getElementById("grid");
+const width = 6;
+
 function makeSquares(quantity) { 
-    var leght = 6/quantity;
+    var length = width/quantity;
     var rows = quantity;
     var cols = quantity;
   
-    grid.style.setProperty('--grid-rows', rows);
-    grid.style.setProperty('--grid-cols', cols);
-    grid.style.setProperty('grid-template-columns', `repeat(${cols},${leght}in)`);
-    grid.style.setProperty('grid-template-rows', `repeat(${rows},${leght}in)`);
+    grid.style.setProperty('grid-template-columns', `repeat(${cols},${length}in)`);
+    grid.style.setProperty('grid-template-rows', `repeat(${rows},${length}in)`);
     
     for (let c = 0; c < (rows * cols); c++) {
       let cell = document.createElement("div");
@@ -17,27 +17,57 @@ function makeSquares(quantity) {
     };
 };
 
+function removeAllChildNodes(parent){
+    while(parent.firstChild){
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+//changing the color of the navbar buttons
+function changeNavbar(color) {
+    var navbar_black = document.getElementById('black');
+    var navbar_rgb = document.getElementById('rgb');
+    if (color === 'black'){
+        navbar_black.style.setProperty('background-color', 'black');
+        navbar_rgb.style.setProperty('background-color', '#333');
+    }else{
+        navbar_rgb.style.setProperty('background-color', "rgb(155, 102, 102)");
+        navbar_black.style.setProperty('background-color', '#333');
+    }
+}
+
 //setting the color of the squares
 var color = localStorage.getItem('color')
+changeNavbar(color)
 if (color === null) {
     color = 'black'
     localStorage.setItem('color', color);
+    changeNavbar(color)
 }
 
 function black() {
     color = 'black'
     localStorage.setItem('color', color);
-    window.location.reload();
-      
+    changeNavbar(color)
+    reset()
 }
 
 function rgb() {
     randonColor = Math.floor(Math.random()*16777215).toString(16);
     color = "#" + randonColor
     localStorage.setItem('color', color);
-    window.location.reload();
+    changeNavbar(color)
+    reset()
 }
 
+//reset button
+function reset() {
+    let cell = grid.children;
+    let val = document.getElementById('slider').value;
+    for (let i = 0; i < val*val; i++) {
+        cell[i].style.backgroundColor = 'transparent';
+    }    
+}
 
 //changing the color of the squares
 document.onmouseover = function(e) {
@@ -53,58 +83,17 @@ document.onmouseover = function(e) {
     }
 }
 
-//changing the color of the navbar buttons
-var navbar_black = document.getElementById('black');
-var navbar_rgb = document.getElementById('rgb');
-if (color === 'black'){
-    navbar_black.style.setProperty('background-color', 'black');
-    navbar_rgb.style.setProperty('background-color', '#333');
-}else{
-    navbar_rgb.style.setProperty('background-color', "rgb(155, 102, 102)");
-    navbar_black.style.setProperty('background-color', '#333');
-}
-
-//reset button
-function reset() {
-    window.location.reload();
-}
-
 //range slider
 var slider = document.getElementById("slider");
 var number = document.getElementById("number");
-var range = localStorage.getItem('range')
 
-if (range === null){
-    range = slider.value;
-    localStorage.setItem('range', range);
-}
-
-range = localStorage.getItem('range')
-number.innerHTML = range;
-slider.value = range;
+number.innerHTML = slider.value;
+var range = slider.value;
+makeSquares(range)
 
 slider.oninput = function() {
     range = this.value;
     number.innerHTML = range;
-    localStorage.setItem('range', range);
-    window.location.reload();
+    removeAllChildNodes(grid)
+    makeSquares(range)
 }
-
-makeSquares(range)
-
-// //square button (not using)
-// var square = localStorage.getItem('square')
-// if (square === null) {
-//     square = 16
-//     localStorage.setItem('square', square);
-// }
-
-// function squareNumbers() {
-//     let choise = prompt("Select the number of squares per side", "16");
-//     square = parseInt(choise)
-//     localStorage.setItem('square', square);
-//     window.location.reload();
-// }
-
-// square = localStorage.getItem('square')
-// makeSquares(square)
